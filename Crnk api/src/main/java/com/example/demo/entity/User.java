@@ -1,13 +1,17 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.crnk.core.resource.annotations.JsonApiField;
 import io.crnk.core.resource.annotations.JsonApiId;
 import io.crnk.core.resource.annotations.JsonApiRelation;
 import io.crnk.core.resource.annotations.JsonApiResource;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -15,8 +19,9 @@ import java.util.List;
 
 @Table
 @Entity
-@Setter
-@Getter
+//@Setter
+//@Getter
+@Data
 @JsonApiResource(type ="user")
 public class User {
 
@@ -24,7 +29,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @JsonApiId
-    private Integer id;
+    private int id;
 
     @Column(name = "user_name",unique = true , nullable = false)
     @JsonApiField
@@ -44,25 +49,30 @@ public class User {
     @JsonApiField
     private Date bDate;
 
-    @JsonApiRelation(opposite = "follower")
-    @JsonIgnore
-//    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "follower" , cascade = CascadeType.REMOVE)
+    @JsonApiRelation(mappedBy = "follower")
+//    @JsonIgnore
+    @JsonBackReference
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<FollowDetails> following ;
 
-//    @OneToMany(mappedBy = "following" , cascade = CascadeType.REMOVE)
-    @JsonApiRelation(opposite = "following")
-    @JsonIgnore
-//    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "following" , cascade = CascadeType.REMOVE)
+    @JsonApiRelation(mappedBy = "following")
+//    @JsonIgnore
+    @JsonBackReference
+    @LazyCollection(LazyCollectionOption.FALSE)
     private List<FollowDetails> followers ;
 
-//    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
-    @JsonApiRelation(opposite = "user")
-    @JsonIgnore
+    @OneToMany(mappedBy = "user",cascade = CascadeType.REMOVE)
+    @JsonApiRelation(mappedBy = "user")
+//    @JsonIgnore
+    @JsonBackReference
     private List<Comment> comments;
 
-//    @OneToMany(mappedBy = "creator",cascade = CascadeType.REMOVE)
-    @JsonApiRelation(opposite = "creator")
-    @JsonIgnore
+    @OneToMany(mappedBy = "creator",cascade = CascadeType.REMOVE)
+    @JsonApiRelation(mappedBy = "creator")
+//    @JsonIgnore
+    @JsonBackReference
     private List<Post> posts;
 
 

@@ -1,11 +1,10 @@
 package com.example.demo.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.crnk.core.resource.annotations.JsonApiField;
-import io.crnk.core.resource.annotations.JsonApiId;
-import io.crnk.core.resource.annotations.JsonApiRelation;
-import io.crnk.core.resource.annotations.JsonApiResource;
+import io.crnk.core.resource.annotations.*;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +13,9 @@ import java.util.List;
 
 @Table
 @Entity
-@Setter
-@Getter
-
+//@Setter
+//@Getter
+@Data
 @JsonApiResource(type ="post")
 public class Post {
 
@@ -24,17 +23,18 @@ public class Post {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     @JsonApiId
-    Integer id;
+    int id;
 
-//    @ManyToOne
-//    @JoinColumn(name = "user_id" , nullable = false)
-    @JsonApiRelation
+    @ManyToOne
+    @JoinColumn(name = "user_id" , nullable = false)
+    @JsonApiRelation(repositoryBehavior = RelationshipRepositoryBehavior.FORWARD_OWNER)
     User creator;
 
-//    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
-    @JsonApiRelation(opposite = "post")
-    @JsonIgnore
-    List<Comment> comments;
+    @OneToMany(mappedBy = "post", cascade = CascadeType.REMOVE)
+    @JsonApiRelation(mappedBy = "post")
+//    @JsonIgnore
+    @JsonBackReference
+    private List<Comment> comments;
 
     @Column(name = "text", nullable = false)
 //    @JsonProperty
