@@ -38,39 +38,39 @@ public class UserController {
         return new ResponseEntity<>(user ,HttpStatus.ACCEPTED);
     }
 
-    @PostMapping("/followUser/{followerId}/{followingId}")
-    public ResponseEntity<Object> followUser(@PathVariable int followerId , @PathVariable int followingId){
-        return userService.followUser(followerId,followingId);
-    }
+//    @PostMapping("/followUser/{followerId}/{followingId}")
+//    public ResponseEntity<Object> followUser(@PathVariable int followerId , @PathVariable int followingId){
+//        return userService.followUser(followerId,followingId);
+//    }
 
-    @GetMapping( "/getFollowers/{userId}")
-    public ResponseEntity<Object> getFollowers(@PathVariable("userId") int userId){
-        return new ResponseEntity<>( userService.getFollowers(userId),HttpStatus.ACCEPTED );
-
-    }
-
-    @GetMapping( "/getFollowing/{userId}")
-    public ResponseEntity<Object> getFollowing(@PathVariable("userId") int userId){
-        return new ResponseEntity<>( userService.getFollowing(userId),HttpStatus.ACCEPTED );
-    }
-
-    @GetMapping("/getAllPosts/{userId}")
-    public ResponseEntity<Object> getAllPosts(@PathVariable int userId){
-        try{
-            return new ResponseEntity<>(userService.getPosts(userId),HttpStatus.ACCEPTED);
-        } catch (Exception e){
-            return  new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    @GetMapping("/getAllComments/{userId}")
-    public ResponseEntity<Object> getAllComments(@PathVariable int userId){
-        try {
-            return new ResponseEntity<>(userService.getComments(userId), HttpStatus.ACCEPTED);
-        } catch (Exception e){
-            return  new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+//    @GetMapping( "/getFollowers/{userId}")
+//    public ResponseEntity<Object> getFollowers(@PathVariable("userId") int userId){
+//        return new ResponseEntity<>( userService.getFollowers(userId),HttpStatus.ACCEPTED );
+//
+//    }
+//
+//    @GetMapping( "/getFollowing/{userId}")
+//    public ResponseEntity<Object> getFollowing(@PathVariable("userId") int userId){
+//        return new ResponseEntity<>( userService.getFollowing(userId),HttpStatus.ACCEPTED );
+//    }
+//
+//    @GetMapping("/getAllPosts/{userId}")
+//    public ResponseEntity<Object> getAllPosts(@PathVariable int userId){
+//        try{
+//            return new ResponseEntity<>(userService.getPosts(userId),HttpStatus.ACCEPTED);
+//        } catch (Exception e){
+//            return  new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
+//
+//    @GetMapping("/getAllComments/{userId}")
+//    public ResponseEntity<Object> getAllComments(@PathVariable int userId){
+//        try {
+//            return new ResponseEntity<>(userService.getComments(userId), HttpStatus.ACCEPTED);
+//        } catch (Exception e){
+//            return  new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//    }
 
 
 }

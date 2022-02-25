@@ -1,17 +1,19 @@
 package c3s.blog.service.user;
 
-import c3s.blog.entity.Comment;
-import c3s.blog.entity.FollowDetails;
-import c3s.blog.entity.Post;
+//import c3s.blog.entity.Comment;
+//import c3s.blog.entity.FollowDetails;
+//import c3s.blog.entity.Post;
 import c3s.blog.entity.User;
 import c3s.blog.repository.user.UserRepo;
-import org.hibernate.exception.ConstraintViolationException;
+//import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.transaction.Transactional;
+//import javax.transaction.Transactional;
+import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -22,8 +24,8 @@ public class UserService {
     @Autowired
     UserRepo userRepo;
 
-    @Autowired
-    FollowDetailsService followDetailsService;
+//    @Autowired
+//    FollowDetailsService followDetailsService;
 
     public ResponseEntity<Object> addUser(User user ){
         try {
@@ -51,38 +53,38 @@ public class UserService {
         }
     }
 
-    public ResponseEntity<Object> followUser(int followerId ,int followedId){
-        User follower ;
-        User following ;
-        try {
-            follower = findById(followerId);
-            following = findById(followedId);
-        } catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        try {
-            followDetailsService.follow(follower, following);
-        } catch (Exception e){
-            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-        return new ResponseEntity<>("user followed successfully ",HttpStatus.ACCEPTED);
-    }
-
-    public List<User> getFollowers(int userId){
-        User user = findById(userId);
-        List<FollowDetails> followDetails = user.getFollowers();
-        List<User>users = new ArrayList<>();
-        for(FollowDetails f : followDetails) users.add(f.getFollower());
-        return users;
-    }
-
-    public List<User> getFollowing(int userId){
-        User user = findById(userId);
-        List<FollowDetails> followDetails = user.getFollowing();
-        List<User>users = new ArrayList<>();
-        for(FollowDetails f : followDetails) users.add(f.getFollowing());
-        return users;
-    }
+//    public ResponseEntity<Object> followUser(int followerId ,int followedId){
+//        User follower ;
+//        User following ;
+//        try {
+//            follower = findById(followerId);
+//            following = findById(followedId);
+//        } catch (Exception e){
+//            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        try {
+//            followDetailsService.follow(follower, following);
+//        } catch (Exception e){
+//            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+//        }
+//        return new ResponseEntity<>("user followed successfully ",HttpStatus.ACCEPTED);
+//    }
+//
+//    public List<User> getFollowers(int userId){
+//        User user = findById(userId);
+//        List<FollowDetails> followDetails = user.getFollowers();
+//        List<User>users = new ArrayList<>();
+//        for(FollowDetails f : followDetails) users.add(f.getFollower());
+//        return users;
+//    }
+//
+//    public List<User> getFollowing(int userId){
+//        User user = findById(userId);
+//        List<FollowDetails> followDetails = user.getFollowing();
+//        List<User>users = new ArrayList<>();
+//        for(FollowDetails f : followDetails) users.add(f.getFollowing());
+//        return users;
+//    }
 
     @Transactional
     public ResponseEntity<Object> deleteUser(int userId){
@@ -110,25 +112,25 @@ public class UserService {
         return new ResponseEntity<>("user updated successfully ", HttpStatus.ACCEPTED);
     }
 
-    public List<Post> getPosts(int userId){
-        try {
-            User user = findById(userId);
-            return user.getPosts();
-        } catch (NullPointerException e){
-            throw e;
-        } catch (Exception e){
-            throw e;
-        }
-    }
-
-    public List<Comment> getComments(int userId){
-        try {
-            User user = findById(userId);
-            return user.getComments();
-        } catch (NullPointerException e){
-            throw e;
-        } catch (Exception e){
-            throw e;
-        }
-    }
+//    public List<Post> getPosts(int userId){
+//        try {
+//            User user = findById(userId);
+//            return user.getPosts();
+//        } catch (NullPointerException e){
+//            throw e;
+//        } catch (Exception e){
+//            throw e;
+//        }
+//    }
+//
+//    public List<Comment> getComments(int userId){
+//        try {
+//            User user = findById(userId);
+//            return user.getComments();
+//        } catch (NullPointerException e){
+//            throw e;
+//        } catch (Exception e){
+//            throw e;
+//        }
+//    }
 }
