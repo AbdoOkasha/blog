@@ -2,6 +2,7 @@ package c3s.blog;
 
 
 import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.AWSCredentialsProvider;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.client.builder.AwsClientBuilder;
@@ -30,19 +31,23 @@ public class DynamoConfig {
     @Value("${amazon.aws.secretkey}")
     private String amazonAWSSecretKey;
 
-    @Bean
-    public AmazonDynamoDB amazonDynamoDB() {
-        AmazonDynamoDB dynamoDB = new AmazonDynamoDBClient(amazonAWSCredentials());
+    @Value("${amazon.aws.region}")
+    private String awsRegion;
 
-        if (!StringUtils.isEmpty(amazonDynamoDBEndpoint)) {
-            dynamoDB.setEndpoint(amazonDynamoDBEndpoint);
-        }
+    public AwsClientBuilder.EndpointConfiguration endpointConfiguration() {
+        return new AwsClientBuilder.EndpointConfiguration(amazonDynamoDBEndpoint, awsRegion);
+    }
 
-        return dynamoDB;
+    public AWSCredentialsProvider awsCredentialsProvider() {
+        return new AWSStaticCredentialsProvider(new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey));
     }
 
     @Bean
-    public AWSCredentials amazonAWSCredentials() {
-        return new BasicAWSCredentials(amazonAWSAccessKey, amazonAWSSecretKey);
+    public AmazonDynamoDB amazonDynamoDB() {
+        return AmazonDynamoDBClientBuilder
+                .standard()
+                .withEndpointConfiguration(endpointConfiguration())
+                .withCredentials(awsCredentialsProvider())
+                .build();
     }
 }
