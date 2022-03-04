@@ -11,15 +11,15 @@ import org.springframework.lang.Nullable;
 //import org.hibernate.annotations.LazyCollectionOption;
 //
 //import javax.persistence.*;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
+//import javax.persistence.Entity;
+//import javax.persistence.Table;
+//import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
-@Table
-@Entity
+//@Table
+//@Entity
 @Setter
 @Getter
 //@DynamoDBTable(tableName = "user")
@@ -31,8 +31,8 @@ public class User implements Serializable {
 //    @Column(name = "id")
 //    @Column(name = "user_name",unique = true , nullable = false)
     @DynamoDBAttribute
-    @NotNull
-    @JsonProperty("userName")
+//    @NotNull
+    @DynamoDBIndexRangeKey(localSecondaryIndexName = "userName")
     String userName;
 
 //    @Column(name = "f_name",nullable = false)
@@ -109,6 +109,7 @@ public class User implements Serializable {
         return bDate;
     }
 
+    @DynamoDBIndexRangeKey(localSecondaryIndexName = "userName")
     public String getUserName() {
         return userName;
     }
